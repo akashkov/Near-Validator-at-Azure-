@@ -20,3 +20,11 @@ Azure Portal: https://portal.azure.com/
   * Waite until upgrade for your account will be comleted.
 ##
 **Step 2 -  Create Azure resources for Node deployment**
+
+       The following Azure resources will be requrd: 
+       Resource Group - Logical container to keep information about rest of resources. (neer_rg)
+       Virtual Network(vNet) - IP address space that will be used. (near_vnet 10.0.0.0/24) 
+       Subnet - Network subnet that is part of vNet address space. (default 10.0.0.0/25)
+       
+  * Create Resource Group by navigating to  
+       
