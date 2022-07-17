@@ -23,8 +23,8 @@ Azure Portal: https://portal.azure.com/
 
        The following Azure resources will be requrd: 
        Resource Group - Logical container to keep information about rest of resources. (neer_rg)
-       Virtual Network(vNet) - IP address space that will be used. (near_vnet 10.0.0.0/24) 
-       Subnet - Network subnet that is part of vNet address space. (default 10.0.0.0/25)
+       Virtual Network(vNet) - IP address space that will be used. (near_vnet 10.250.250.0/24) 
+       Subnet - Network subnet that is part of vNet address space. (default 10.250.250.0/25)
        
   * Create Resource Group by navigating to  
        
