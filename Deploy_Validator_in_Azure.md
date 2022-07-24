@@ -221,7 +221,7 @@ ___
 
       $ sudo apt update && sudo apt upgrade -y
 
-  Install developer toolsNode.js and npm, confirm versions:
+  Install developer tools Node.js and npm, confirm versions:
 
       $ curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -  
       $ sudo apt install build-essential nodejs
