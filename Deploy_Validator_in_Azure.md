@@ -49,7 +49,7 @@ ___
 
 * Create Ubuntu Virtual Machine in resource group nearpool_RG using following information:
 
-      Operating system: Linux (ubuntu 20.04)s
+      Operating system: Linux (ubuntu 20.04)
       VM Size: Standard D2as v4
       Authentication type: Password
       Inbound ports: SSH (22)
