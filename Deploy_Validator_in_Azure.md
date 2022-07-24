@@ -407,7 +407,7 @@ Edit file by coping content of the file from your computer.
 * Edit “account_id” => xx.factory.shardnet.near, where xx is your PoolName
 * Change private_key to secret_key
 
-Note: The account_id must match the staking pool contract name or you will not be able to sign blocks.\
+Note: The account_id must match the staking pool contract name or you will not be able to sign blocks.
 
 File content must be in the following pattern:
 
