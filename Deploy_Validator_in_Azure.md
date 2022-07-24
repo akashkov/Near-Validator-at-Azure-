@@ -17,7 +17,7 @@ ___
 
 * Visit <https://azure.microsoft.com/en-ca/free/> and click "Start Free"
 * Provide existing or create a new Microsoft account (Office 365, Outlook, Hotmail)
-* Complete creation of free Azure account. You will be provided with credit that depends on your region.
+* Complete creation of free Azure account. You will be provided you with credit that depends on your region.
 * Login to Azure portal <https://portal.azure.com/> using your account and select to upgrade your account to Pay-As-You-Go.
     You still can use your credit but also will get access to all hardware tiers including Premium SSD storage.
 * Waite until upgrade for your account will be completed.
@@ -49,7 +49,7 @@ ___
 
 * Create Ubuntu Virtual Machine in resource group nearpool_RG using following information:
 
-      Operating system: Linux (ubuntu 20.04)
+      Operating system: Linux (ubuntu 20.04)s
       VM Size: Standard D2as v4
       Authentication type: Password
       Inbound ports: SSH (22)
@@ -221,7 +221,7 @@ ___
 
       $ sudo apt update && sudo apt upgrade -y
 
-  Install developer tools Node.js and npm, confirm versions:
+  Install developer toolsNode.js and npm, confirm versions:
 
       $ curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -  
       $ sudo apt install build-essential nodejs
@@ -287,7 +287,7 @@ Checkout to the commit needed. Please refer to the commit defined in [this file]
 
 ### Compile nearcore binary
 
-(Need to be in nearcore folder) 
+(Need to be in nearcore folder)
 
       $ cargo build -p neard --release --features shardnet
 
@@ -314,7 +314,7 @@ From the generated config.json, there two parameters to modify:
 * boot_nodes: If you had not specify the boot nodes to use during init in Step 3, the generated config.json shows an empty array, so we will need to replace it with a full one specifying the boot nodes.
 * tracked_shards: In the generated config.json, this field is an empty. You will have to replace it to "tracked_shards": [0]
 
-      $ rm ~/.near/config.json
+      $ ~/.near/config.json
       $ wget -O ~/.near/config.json https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/shardnet/config.json
   
 ### Get latest snapshot
@@ -339,6 +339,8 @@ To start your node simply run the following command:
 
 ___
 
+<br>
+
 ## Step 6 -  Activating the node as validator
 
 ### Authorize Wallet
@@ -346,6 +348,7 @@ ___
 A full access key needs to be installed locally to be able to sign transactions via NEAR-CLI.
 Since this deployment of the near node doesn't have graphical interface installed on this server, we need to authorize wallet on remote system with GUI and import wallet key to this server. You can use your primary Windows or Mac computer to install your wallet key. You need to install near-cli on your computer first, same way we installed it for this deployment.
 
+<br>
 
 ### On your primary computer run
 
@@ -353,44 +356,64 @@ Since this deployment of the near node doesn't have graphical interface installe
 
 ![AImport_Wallet](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/Import_wallet.png?raw=true)
 
+<br>
+
 WEB browser will open a new window. 
 Select if you want to import existing account or create a new one (In this example, a new account will be created)
 
 ![Create a New](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/Create_New_or_Import.png?raw=true)
 
+<br>
+
 Enter a name for new Wallet
 
 ![Reserve_Name](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/Reserve_name.png?raw=true)
+
+<br>
 
 Reserve a name for you Wallet and complete a process. Keep your secure passphrase in safe place.
 
 ![Generate_Passphrase](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/create_wallet.png?raw=true)
 
+<br>
+
 Connect your new Wallet to you computer.
 
 ![Generate_Passphrase](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/Connect_Account.png?raw=true)
+
+<br>
 
 Confirm your new Wallet full account access.
 
 ![Confirm_Access](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/Confirm_import.png?raw=true)
 
+<br>
+
 Close confirmation window to finish.
 
 ![Confirm_Access](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/Close_Import.png?raw=true)
 
+<br>
+
+## Copy account key file to node in Azure 
+
 At this pont mynew-wallet.shardnet.near.json was created in a folder ~/.near-credentials/shardnet/ at your computer. 
-You need to copy content of this file from you computer to server in Azure.
+You need to copy content of this file from you computer to node in Azure. At you computer run command (Replace mynew-wallet.shardnet.near.json with your file name).
 
       $ cat ~/.near-credentials/shardnet/mynew-wallet.shardnet.near.json
-        { "account_id":"mynew-wallet.shardnet.near","public_key":"ed25519:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY","private_key":"ed25519:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"}                                            
 
-On node in Azure:
+        { "account_id":"mynew-wallet.shardnet.near","public_key":"ed25519:YYYYYYYYYYYYY"
+        "private_key":"ed25519:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"}                                            
+
+SSH to node in Azure and run (Replace mynew-wallet.shardnet.near.json with your file name)
 
       $ mkdir -p ~/.near-credentials/shardnet
       $ touch ~/.near-credentials/shardnet/mynew-wallet.shardnet.near.json
       $ nano ~/.near-credentials/shardnet/mynew-wallet.shardnet.near.json
 
 Edit file by coping content of the file from your computer.
+
+<br>
 
 ### Create a validator_key.json
 
@@ -416,6 +439,8 @@ File content must be in the following pattern:
         "public_key": "ed25519:HeaBJ3xLgvZacQWmEctTeUqyfSU4SDEnEwckWxd92W2G",
         "secret_key": "ed25519:****"
       }
+
+<br>
 
 ### Configure neard run as service
 
@@ -452,6 +477,9 @@ Watch logs with command:
 
       $ journalctl -n 100 -f -u neard
 
+___
+
+<br>
 
 ## Step 7 -  Mounting a staking pool
 
@@ -463,17 +491,17 @@ Calls the staking pool factory, creates a new staking pool with the specified na
 
 From the example above, you need to replace:
 
-  * Pool ID: Staking pool name, the factory automatically adds its name to this parameter, creating {pool_id}.{staking_pool_factory}.
-    It is important that {pool_id}.{staking_pool_factory} would much account_id in validator_key.json file. For ensample if account_id in
-    validator_key.json file is stakewars.factory.shardnet.near, your should replace "pool id" with "stakewars".
+* Pool ID: Staking pool name, the factory automatically adds its name to this parameter, creating {pool_id}.{staking_pool_factory}.
+  It is important that {pool_id}.{staking_pool_factory} would much account_id in validator_key.json file. For ensample if account_id in
+  validator_key.json file is stakewars.factory.shardnet.near, your should replace "pool id" with "stakewars".
 
-  * Owner ID: The SHARDNET account (i.e. stakewares.shardnet.near) that will manage the staking pool.
+* Owner ID: The SHARDNET account (i.e. stakewares.shardnet.near) that will manage the staking pool.
 
-  * Public Key: The public key in your validator_key.json file.
+* Public Key: The public key in your validator_key.json file.
 
-  * 5: The fee the pool will charge (e.g. in this case 5 over 100 is 5% of fees).
+* 5: The fee the pool will charge (e.g. in this case 5 over 100 is 5% of fees).
 
-  * Account Id: The SHARDNET account deploying and signing the mount tx. Usually the same as the Owner ID.
+* Account Id: The SHARDNET account deploying and signing the mount tx. Usually the same as the Owner ID.
 
 You should see result of the staking pool creation, that includes HTTP link. Check result in browser, it should has "True" at the End.
 
@@ -484,7 +512,7 @@ Use following commands to confirm Validators set price (minimum amount of near r
         Validators (total: 325, seat price: 160):
       $ near call <staking_pool_id> deposit_and_stake --amount 200 --accountId <accountId> --gas=300000000000000
 
-In this example we need to stake at least 130 Nears to much seat price of 160.
+In this example we staked 200 Nears to exceed seat price of 160.
 
 You have now configure your Staking pool.
 
@@ -508,8 +536,9 @@ The following commands can be used to work with you pool
 
       $ near call <staking_pool_id> pause_staking '{}' --accountId <accountId>
 
+<br>
 
-Now when your pool has sufficient stake(more than seat price) we can run Ping command.
+### Now, when your pool has sufficient stake(more than seat price) we can run Ping command
 
 A ping issues a new proposal and updates the staking balances for your delegators. A ping should be issued each epoch to keep reported rewards current.
 
@@ -520,6 +549,107 @@ Additionally you can run near proposal command with filter for your pool name.
 Result should include Proposal(Accepted) for yourpool.factory.shardnet.near  
 
       $ near proposals | grep yourpool
-      | Proposal(Accepted) | yourpool.factory.shardnet.near         | 230                | 1       
+      | Proposal(Accepted) | yourpool.factory.shardnet.near         | 230                | 1  
 
+___     
 
+<br>
+
+## Step 8 -  Automate pool ping with script and crontab
+
+___
+
+<br>
+
+## Step 9 -  Monitoring you node
+
+### You need to monitor your Near node in order to achieve validator >95% of uptime
+
+<br>
+
+__Log Files__ 
+
+The log file is stored either in the ~/.nearup/logs directory or in systemd depending on your setup.
+To make logs output is more readable we can install ccze package.
+
+      $ sudo apt install ccze
+
+Systemd Command:
+
+      $ journalctl -n 100 -f -u neard | ccze -A
+
+Log output can look like this.
+
+    INFO stats: #85079829 H1GUabkB7TW2K2yhZqZ7G47gnpS7ESqicDMNyb9EE6tf Validator 73 validators 30 peers ⬇ 506.1kiB/s ⬆ 428.3kiB/s 1.20 bps 62.08 Tgas/s CPU: 23%, Mem: 7.4 GiB
+
+  * **Validator**: A “Validator” will indicate you are an active validator
+  * **73 validators**: Total 73 validators on the network
+  * **30 peers**: You current have 30 peers. You need at least 3 peers to reach consensus and start validating
+  * **#46199418**: block – Look to ensure blocks are moving
+
+<br>
+
+__RPC is another way to monitor your node__
+
+Any node within the network offers RPC services on port 3030 as long as the port is open in the nodes firewall. The NEAR-CLI uses RPC calls behind the scenes. Common uses for RPC are to check on validator stats, node version and to see delegator stake, although it can be used to interact with the blockchain, accounts and contracts overall.
+
+Find many commands and how to use them in more detail here: https://docs.near.org/docs/api/rpc
+
+Install packages to support RPC monitoring
+
+      $ sudo apt install curl jq
+
+**Common Commands:**
+
+<br>
+
+####### Check your node version: Command:
+
+    $ curl -s http://127.0.0.1:3030/status | jq .version
+
+<br>
+
+####### Check Delegators and Stake Command:
+
+      $ near view <your pool>.factory.shardnet.near get_accounts '{"from_index": 0, "limit": 10}' --accountId <accountId>.shardnet.near
+
+<br>
+
+####### Check Reason Validator Kicked Command:
+
+      $ curl -s -d '{"jsonrpc": "2.0", "method": "validators", "id": "dontcare", "params": [null]}' -H 'Content-Type: application/json' 127.0.0.1:3030 | jq -c '.result.prev_epoch_kickout[] | select(.account_id | contains ("<POOL_ID>"))' | jq .reason
+
+<br>
+
+####### Check Blocks Produced / Expected Command:
+
+      $ curl -s -d '{"jsonrpc": "2.0", "method": "validators", "id": "dontcare", "params": [null]}' -H 'Content-Type: application/json' 127.0.0.1:3030 | jq -c '.result.current_validators[] | select(.account_id | contains ("POOL_ID"))'
+
+<br>
+
+### Allow RPC monitoring of Near node in Azure remotely
+
+You can monitor your node in Azure remotely. To do soo you need to allow TCP port 3030 in Network Security Group in Azure.
+<br>
+
+* Login to Azure portal
+* Navigate to your Resource group
+* Click on Network Security Group that was automatically created
+
+![RG_NSG](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/NSG.png?raw=true)
+
+<br>
+
+* Navigate into Inbound security rules
+
+![NSG_Inbound](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/NSG_Inbound.png?raw=true)
+
+<br>
+
+* Add additional inbound rule for RPC
+
+![NSG_Inbound](https://github.com/akashkov/Near-Validator-at-Azure-/blob/main/NSG_RPC_Rule.png?raw=true)
+
+<br>
+
+### Now your node in Azure is reachable for RPC requests on TCP port 3030
